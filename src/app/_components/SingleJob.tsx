@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { RouterOutputs } from "~/trpc/shared";
 
@@ -5,8 +6,8 @@ type Job = RouterOutputs["job"]["getAll"][0];
 
 const SingleJob = ({ job }: { job: Job }) => {
   return (
-    <div className="col-span-1 mt-8">
-      <div className="white flex w-96 flex-col bg-white p-2">
+    <div className="col-span-1 mt-8 shadow-lg ">
+      <div className="white flex w-90 flex-col bg-white p-2">
         <div className="mb-3 flex gap-10 border-b-2 px-2 ">
           <div className="h-14 w-14 rounded-sm bg-sky-400">
             <h2 className="flex h-full items-center justify-center text-2xl">
@@ -27,11 +28,9 @@ const SingleJob = ({ job }: { job: Job }) => {
           </div>
           <div>
             <button className="m-2 rounded-sm bg-sky-300 px-2 py-1">
-              {" "}
-              Edit
+              <Link href={`/editJob/${job.id}`}> Edit</Link>
             </button>
             <button className="m-2 rounded-sm bg-sky-300 px-2 py-1">
-              {" "}
               Delete
             </button>
           </div>

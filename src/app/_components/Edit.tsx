@@ -3,33 +3,39 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/trpc/react";
+import { RouterOutputs } from "~/trpc/shared";
 
-const CreateJob = () => {
+type Job = RouterOutputs["job"]["getAll"][0];
+
+const Edit = ({ job }: { job: Job }) => {
   const router = useRouter();
-  const [position, setPosition] = useState("");
-  const [company, setCompany] = useState("");
-  const [location, setLocation] = useState("");
-  const [status, setStatus] = useState("");
-  const [type, setType] = useState("");
+  const [position, setPosition] = useState(job.position);
+  const [company, setCompany] = useState(job.company);
+  const [location, setLocation] = useState(job.location);
+  const [status, setStatus] = useState(job.status);
+  const [type, setType] = useState(job.type);
 
-  const createJob = api.job.create.useMutation();
+  const editJob = api.job.edit.useMutation();
 
   const handleSubmit = () => {
-    createJob.mutate({ position, company, location, status, type },{
-      onSuccess:()=>{
-         toast("Job Added")
-         router.refresh()
+    editJob.mutate(
+      { id: job.id, position, company, location, status, type },
+      {
+        onSuccess: () => {
+          toast("Job Edited");
+          router.push("/")
+        },
+        onError: () => {
+          toast("Something went wrong");
+        },
       },
-      onError:()=>{
-         toast("Something went wrong")
-      }
-    });
+    );
   };
 
   return (
-    <div className="flex flex-col bg-white shadow-md px-10 py-16 m-3">
-      <h2>Add Job</h2>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="flex w-full flex-col bg-white px-10 py-16">
+      <h2>Edit Job</h2>
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         <div className="col-span-1 mt-3 flex flex-col">
           <label className="py-2 text-gray-600">Position</label>
           <input
@@ -81,10 +87,10 @@ const CreateJob = () => {
 
         <div className="col-span-1 mt-3 flex flex-col">
           <label className="py-2 text-gray-600 ">
-            You can click here to submit
+            You can click here to Update
           </label>
           <button className="rounded-md bg-sky-300 p-2" onClick={handleSubmit}>
-            Submit
+            Update
           </button>
         </div>
       </div>
@@ -92,4 +98,4 @@ const CreateJob = () => {
   );
 };
 
-export default CreateJob;
+export default Edit;

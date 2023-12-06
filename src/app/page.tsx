@@ -5,11 +5,9 @@ import ListJob from "./_components/ListJob";
 
 export default async function Home() {
   return (
-    <div className=" bg-slate-200">
+    <div className="">
       <div className="">
-        <Toaster/>
-        <CreateJob />
-        <ListJob/>
+        
       </div>
     </div>
   );

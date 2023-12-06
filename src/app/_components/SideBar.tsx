@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 
 const items = [
-   { name: "All Job", path: "all_job" },
-   { name: "Add Job", path: "add_job" },
+   { name: "All Job", path: "allJobs" },
+   { name: "Add Job", path: "addJob" },
    { name: "Stats", path: "stats" },
    { name: "Profile", path: "profile" }
  ]
